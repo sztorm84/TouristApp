@@ -6,7 +6,12 @@ module edp.touristapp {
     requires org.controlsfx.controls;
     requires org.kordamp.ikonli.javafx;
     requires eu.hansolo.tilesfx;
+    requires json.simple;
+    requires java.logging;
 
     opens edp.touristapp to javafx.fxml;
+    opens edp.touristapp.controllers to javafx.fxml;
+
+    exports edp.touristapp.controllers;
     exports edp.touristapp;
 }

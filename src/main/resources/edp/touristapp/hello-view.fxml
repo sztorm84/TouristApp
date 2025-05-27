@@ -1,16 +1,83 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
-
 <?import javafx.scene.control.Button?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="edp.touristapp.HelloController">
-  <padding>
-    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-  </padding>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.TilePane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.web.WebView?>
 
-  <Label fx:id="welcomeText"/>
-  <Button text="Hello!" onAction="#onHelloButtonClick"/>
-</VBox>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edp.touristapp.controllers.MainController">
+   <top>
+      <HBox alignment="CENTER_LEFT" prefHeight="90.0" prefWidth="1000.0" BorderPane.alignment="CENTER_LEFT">
+         <HBox alignment="CENTER" prefHeight="90.0" prefWidth="300.0" >
+            <ImageView fitHeight="40.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+               <Image url="@assets/TouristApp.png" />
+            </ImageView>
+         </HBox>
+         <TextField fx:id="searchBar" prefHeight="25.0" prefWidth="260.0">
+            <HBox.margin>
+               <Insets left="10.0" right="10.0" />
+            </HBox.margin>
+         </TextField>
+         <Button fx:id="searchButton" mnemonicParsing="false" text="Search" onAction="#handleSearch">
+            <HBox.margin>
+               <Insets left="10.0" right="10.0" />
+            </HBox.margin>
+         </Button>
+         <Label fx:id="notificationLabel" text="Enter city.">
+            <HBox.margin>
+               <Insets left="10.0" right="10.0" />
+            </HBox.margin>
+         </Label>
+      </HBox>
+   </top>
+   <left>
+      <VBox alignment="TOP_CENTER" prefHeight="461.0" prefWidth="190.0" BorderPane.alignment="CENTER">
+         <ListView fx:id="cityView" prefHeight="400.0" prefWidth="180.0" VBox.vgrow="ALWAYS"/>
+         <Button fx:id="addButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="120.0" text="Add">
+            <VBox.margin>
+               <Insets top="10.0" />
+            </VBox.margin>
+         </Button>
+      </VBox>
+   </left>
+   <right>
+      <VBox prefHeight="339.0" prefWidth="154.0" BorderPane.alignment="CENTER">
+         <TilePane fx:id="tileView" prefHeight="464.0" prefWidth="154.0" />
+      </VBox>
+   </right>
+   <bottom>
+      <HBox alignment="CENTER_LEFT" prefHeight="49.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <Button fx:id="createButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="120.0" text="Create">
+            <HBox.margin>
+               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </HBox.margin>
+         </Button>
+         <Button fx:id="saveButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="120.0" text="Save">
+            <HBox.margin>
+               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </HBox.margin>
+         </Button>
+         <Button fx:id="deleteButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="120.0" text="Delete">
+            <HBox.margin>
+               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </HBox.margin>
+         </Button>
+      </HBox>
+   </bottom>
+   <center>
+      <VBox BorderPane.alignment="CENTER">
+         <WebView fx:id="mapView" prefHeight="400.0" prefWidth="671.0" VBox.vgrow="ALWAYS"/>
+      </VBox>
+   </center>
+</BorderPane>
