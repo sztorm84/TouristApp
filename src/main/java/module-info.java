@@ -8,10 +8,12 @@ module edp.touristapp {
     requires eu.hansolo.tilesfx;
     requires json.simple;
     requires java.logging;
+    requires java.net.http;
 
     opens edp.touristapp to javafx.fxml;
     opens edp.touristapp.controllers to javafx.fxml;
 
     exports edp.touristapp.controllers;
     exports edp.touristapp;
+    exports edp.touristapp.models;
 }
