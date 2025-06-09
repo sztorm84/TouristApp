@@ -12,6 +12,8 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
+<?import edp.touristapp.components.ColoredButton?>
+<?import edp.touristapp.components.ColoredTextField?>
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edp.touristapp.controllers.MainController">
    <top>
       <HBox alignment="CENTER_LEFT" prefHeight="90.0" prefWidth="1000.0" BorderPane.alignment="CENTER_LEFT">
@@ -20,16 +22,16 @@
                <Image url="@assets/TouristApp.png" />
             </ImageView>
          </HBox>
-         <TextField fx:id="searchBar" prefHeight="25.0" prefWidth="260.0">
+         <ColoredTextField fx:id="searchBar" prefHeight="25.0" prefWidth="260.0">
             <HBox.margin>
                <Insets left="10.0" right="10.0" />
             </HBox.margin>
-         </TextField>
-         <Button fx:id="searchButton" mnemonicParsing="false" onAction="#handleSearch" text="Search">
+         </ColoredTextField>
+         <ColoredButton fx:id="searchButton" mnemonicParsing="false" onAction="#handleSearch" text="Search">
             <HBox.margin>
                <Insets left="10.0" right="10.0" />
             </HBox.margin>
-         </Button>
+         </ColoredButton>
          <Label fx:id="notificationLabel" text="Enter city.">
             <HBox.margin>
                <Insets left="10.0" right="10.0" />
@@ -38,46 +40,60 @@
       </HBox>
    </top>
    <left>
-      <VBox alignment="TOP_CENTER" prefHeight="461.0" prefWidth="319.0" BorderPane.alignment="CENTER">
+      <VBox alignment="TOP_CENTER" prefHeight="425.0" prefWidth="319.0" BorderPane.alignment="CENTER">
+         <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="319.0" prefHeight="40.0" />
          <ListView fx:id="cityView" prefHeight="421.0" prefWidth="289.0" VBox.vgrow="ALWAYS" />
       </VBox>
    </left>
    <right>
-      <VBox prefHeight="461.0" prefWidth="260.0" BorderPane.alignment="CENTER" VBox.vgrow="ALWAYS">
+      <VBox alignment="TOP_CENTER" prefHeight="461.0" prefWidth="260.0" BorderPane.alignment="CENTER" VBox.vgrow="ALWAYS">
          <Label fx:id="aLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="260.0" textAlignment="CENTER" wrapText="true" VBox.vgrow="ALWAYS">
             <font>
                <Font size="14.0" />
             </font>
          </Label>
-         <ImageView fx:id="placeImage" fitHeight="260.0" fitWidth="260.0" preserveRatio="true" VBox.vgrow="ALWAYS"/>
+         <ImageView fx:id="placeImage" fitHeight="260.0" fitWidth="260.0" preserveRatio="true" VBox.vgrow="ALWAYS" />
+         <ColoredButton fx:id="showTrips" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleShow" prefHeight="34.0" prefWidth="140.0" text="Show my Trips">
+            <VBox.margin>
+               <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
+            </VBox.margin>
+         </ColoredButton>
       </VBox>
    </right>
    <bottom>
-      <HBox alignment="CENTER_LEFT" prefHeight="49.0" prefWidth="1000.0" BorderPane.alignment="CENTER" >
+      <HBox alignment="CENTER_LEFT" prefHeight="49.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
-         <Button fx:id="addButton" mnemonicParsing="false" onAction="#handleAddPlace" prefHeight="30.0" prefWidth="120.0" text="Add" />
-         <Button fx:id="createButton" mnemonicParsing="false" onAction="#handleCreate" prefHeight="30.0" prefWidth="120.0" text="Create">
+         <ColoredButton fx:id="createButton" mnemonicParsing="false" onAction="#handleCreate" prefHeight="30.0" prefWidth="120.0" text="Create">
             <HBox.margin>
                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
             </HBox.margin>
-         </Button>
-         <Button fx:id="saveButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="120.0" text="Save">
+         </ColoredButton>
+         <ColoredButton fx:id="addButton" mnemonicParsing="false" onAction="#handleAddPlace" prefHeight="30.0" prefWidth="120.0" text="Add">
+            <HBox.margin>
+               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </HBox.margin></ColoredButton>
+         <ColoredButton fx:id="saveButton" mnemonicParsing="false" onAction="#handleSave" prefHeight="30.0" prefWidth="120.0" text="Save">
             <HBox.margin>
                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
             </HBox.margin>
-         </Button>
-         <Button fx:id="deleteButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="120.0" text="Delete">
+         </ColoredButton>
+         <ColoredButton fx:id="deleteButton" mnemonicParsing="false" onAction="#handleDelete" prefHeight="30.0" prefWidth="120.0" text="Delete">
             <HBox.margin>
                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
             </HBox.margin>
-         </Button>
+         </ColoredButton>
       </HBox>
    </bottom>
    <center>
       <VBox prefHeight="461.0" prefWidth="353.0" BorderPane.alignment="CENTER" VBox.vgrow="ALWAYS">
-         <ListView fx:id="myTripView" prefHeight="461.0" prefWidth="289.0" VBox.vgrow="ALWAYS"/>
+         <Label fx:id="listName" alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="427.0">
+            <font>
+               <Font name="System Bold" size="18.0" />
+            </font>
+         </Label>
+         <ListView fx:id="myTripView" prefHeight="401.0" prefWidth="421.0" VBox.vgrow="ALWAYS" />
       </VBox>
    </center>
 </BorderPane>

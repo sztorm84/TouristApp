@@ -9,6 +9,8 @@ module edp.touristapp {
     requires json.simple;
     requires java.logging;
     requires java.net.http;
+    requires java.sql;
+    requires com.google.common;
 
     opens edp.touristapp to javafx.fxml;
     opens edp.touristapp.controllers to javafx.fxml;
@@ -16,4 +18,5 @@ module edp.touristapp {
     exports edp.touristapp.controllers;
     exports edp.touristapp;
     exports edp.touristapp.models;
+    exports edp.touristapp.components;
 }
