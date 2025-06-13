@@ -1,2 +1,2 @@
 # TouristApp
-Aplikacja w JavaFX wykorzystująca API do wyszukiwania atrakcji turystycznych w miastach, tworzenia trasy wycieczkowej oraz sprawdzania pogody
+Aplikacja w JavaFX wykorzystująca API do wyszukiwania atrakcji turystycznych w miastach, tworzenia listy atrakcji do zwiedzenia.
