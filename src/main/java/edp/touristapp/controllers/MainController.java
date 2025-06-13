@@ -5,6 +5,7 @@ import edp.touristapp.databases.DatabaseManager;
 import edp.touristapp.events.AppEventBus;
 import edp.touristapp.events.PlaceAddedEvent;
 import edp.touristapp.models.Place;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -177,6 +178,7 @@ public class MainController {
             tripPlaces.clear();
             myTripView.setItems(tripPlaces);
             listName.setText("");
+            currentTripId = null;
         });
 
         saveTask.setOnFailed(e -> {
@@ -215,48 +217,58 @@ public class MainController {
     }
 
     private void loadTripPlaces(String tripName) {
-        Task<ObservableList<Place>> loadTask = new Task<>() {
+        Task<Void> loadTask = new Task<>() {
             @Override
-            protected ObservableList<Place> call() throws Exception {
-                String query = "SELECT p.* FROM places p JOIN trips t ON p.trip_id = t.id WHERE t.name = ?";
-                ObservableList<Place> tripPlaces = FXCollections.observableArrayList();
+            protected Void call() throws Exception {
+                String tripQuery = "SELECT id FROM trips WHERE name = ?";
+                String placeQuery = "SELECT * FROM places WHERE trip_id = ?";
 
                 try (Connection conn = DriverManager.getConnection("jdbc:sqlite:touristapp.sqlite");
-                     PreparedStatement stmt = conn.prepareStatement(query)) {
+                     PreparedStatement tripStmt = conn.prepareStatement(tripQuery)) {
 
-                    stmt.setString(1, tripName);
-                    ResultSet rs = stmt.executeQuery();
+                    tripStmt.setString(1, tripName);
+                    ResultSet tripRs = tripStmt.executeQuery();
 
-                    while (rs.next()) {
-                        String name = rs.getString("name");
-                        String address = rs.getString("address");
-                        String photoReference = rs.getString("photo_reference");
+                    if (tripRs.next()) {
+                        currentTripId = tripRs.getInt("id");
+                    } else {
+                        throw new IllegalStateException("Trip not found: " + tripName);
+                    }
 
-                        Place place = new Place(name, address, photoReference);
-                        tripPlaces.add(place);
+                    try (PreparedStatement placeStmt = conn.prepareStatement(placeQuery)) {
+                        placeStmt.setInt(1, currentTripId);
+                        ResultSet placeRs = placeStmt.executeQuery();
+
+                        ObservableList<Place> loadedPlaces = FXCollections.observableArrayList();
+                        while (placeRs.next()) {
+                            String name = placeRs.getString("name");
+                            String address = placeRs.getString("address");
+                            String photoReference = placeRs.getString("photo_reference");
+                            loadedPlaces.add(new Place(name, address, photoReference));
+                        }
+
+                        Platform.runLater(() -> {
+                            tripPlaces.clear();
+                            tripPlaces.addAll(loadedPlaces);
+                            myTripView.setItems(tripPlaces);
+                            listName.setText(tripName);
+                            notificationLabel.setText("Loaded places for " + tripName);
+                        });
                     }
                 }
-                return tripPlaces;
+                return null;
             }
         };
-
-        loadTask.setOnSucceeded(e -> {
-            ObservableList<Place> places = loadTask.getValue();
-            tripPlaces.clear();
-            tripPlaces.addAll(places);
-            myTripView.setItems(tripPlaces);
-            listName.setText(tripName);
-            notificationLabel.setText("Loaded places for " + tripName);
-        });
 
         loadTask.setOnFailed(e -> {
             Throwable ex = loadTask.getException();
             ex.printStackTrace();
-            notificationLabel.setText("Failed to load places: " + ex.getMessage());
+            notificationLabel.setText("Failed to load trip: " + ex.getMessage());
         });
 
         new Thread(loadTask).start();
     }
+
 
 
     @FXML

@@ -30,7 +30,6 @@ public class APIConnector {
             conn.setRequestMethod("GET");
             conn.connect();
 
-            //Check if connect is made
             int responseCode = conn.getResponseCode();
 
             if (responseCode != 200) {
@@ -64,7 +63,6 @@ public class APIConnector {
             conn.setRequestMethod("GET");
             conn.connect();
 
-            //Check if connect is made
             int responseCode = conn.getResponseCode();
 
             if (responseCode != 200) {

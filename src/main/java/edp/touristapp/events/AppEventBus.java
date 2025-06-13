@@ -9,5 +9,5 @@ public class AppEventBus {
         return eventBus;
     }
 
-    private AppEventBus() {} // prywatny konstruktor
+    private AppEventBus() {}
 }

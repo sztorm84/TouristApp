@@ -23,7 +23,6 @@ public class ColoredTextField extends TextField {
     private void setupListeners() {
         focusedProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal) {
-                // na focus
                 setStyle("-fx-background-color: white;" +
                         "-fx-text-fill: black;" +
                         "-fx-border-color: #606060;" +

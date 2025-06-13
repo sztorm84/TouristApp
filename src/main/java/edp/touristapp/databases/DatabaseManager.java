@@ -73,9 +73,12 @@ public class DatabaseManager {
                     tripStmt.setString(1, tripName);
                     tripStmt.executeUpdate();
 
-                    ResultSet rs = tripStmt.getGeneratedKeys();
-                    if (rs.next()) {
-                        tripId = rs.getInt(1);
+                    try (ResultSet rs = tripStmt.getGeneratedKeys()) {
+                        if (rs.next()) {
+                            tripId = rs.getInt(1);
+                        } else {
+                            throw new SQLException("Creating trip failed: no ID obtained.");
+                        }
                     }
                 }
             } else {
@@ -84,24 +87,26 @@ public class DatabaseManager {
                     updateStmt.setInt(2, tripId);
                     updateStmt.executeUpdate();
                 }
+
                 try (PreparedStatement deleteStmt = connection.prepareStatement(deletePlaces)) {
                     deleteStmt.setInt(1, tripId);
                     deleteStmt.executeUpdate();
                 }
             }
-            try (PreparedStatement placeStmt = connection.prepareStatement(insertPlace)) {
-                for (Place p : places) {
-                    if (tripId == null) {
-                        throw new IllegalStateException("tripId cannot be null here!");
+
+            if (places != null && !places.isEmpty()) {
+                try (PreparedStatement placeStmt = connection.prepareStatement(insertPlace)) {
+                    for (Place p : places) {
+                        placeStmt.setInt(1, tripId);
+                        placeStmt.setString(2, p.name());
+                        placeStmt.setString(3, p.address());
+                        placeStmt.setString(4, p.photoReference());
+                        placeStmt.addBatch();
                     }
-                    placeStmt.setInt(1, tripId);
-                    placeStmt.setString(2, p.name());
-                    placeStmt.setString(3, p.address());
-                    placeStmt.setString(4, p.photoReference());
-                    placeStmt.addBatch();
+                    placeStmt.executeBatch();
                 }
-                placeStmt.executeBatch();
             }
+
             connection.commit();
 
         } catch (SQLException e) {
@@ -114,6 +119,7 @@ public class DatabaseManager {
             throw e;
         }
     }
+
 
     public static void deleteTripByName(String tripName) throws SQLException {
         String selectTripId = "SELECT id FROM trips WHERE name = ?";
